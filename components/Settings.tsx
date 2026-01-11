@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   Settings as SettingsIcon, 
@@ -9,7 +10,8 @@ import {
   Check,
   Globe,
   AlertTriangle,
-  ArrowLeft
+  ArrowLeft,
+  ShieldAlert
 } from 'lucide-react';
 
 interface SettingsProps {
@@ -30,6 +32,7 @@ const Settings: React.FC<SettingsProps> = ({ language, setLanguage, onClearHisto
       dataSubtitle: 'Control your local scan records and history',
       clearBtn: 'Purge Scan History',
       clearConfirm: 'Are you sure? This will permanently delete all saved audits.',
+      resetDisclaimer: 'Reset Legal Disclaimer',
       operationalStatus: 'Operational',
       back: 'Back to Dashboard',
       az: 'Azerbaijani (Azərbaycan)',
@@ -44,6 +47,7 @@ const Settings: React.FC<SettingsProps> = ({ language, setLanguage, onClearHisto
       dataSubtitle: 'Lokal skan qeydlərini və tarixçəni idarə edin',
       clearBtn: 'Skan Tarixçəsini Təmizlə',
       clearConfirm: 'Əminsiniz? Bu, bütün saxlanılan auditləri həmişəlik siləcək.',
+      resetDisclaimer: 'Hüquqi Bildirişi Sıfırla',
       operationalStatus: 'İşləkdir',
       back: 'Audit Panelinə Qayıt',
       az: 'Azərbaycan dili',
@@ -56,6 +60,11 @@ const Settings: React.FC<SettingsProps> = ({ language, setLanguage, onClearHisto
       localStorage.removeItem('skywalker_scan_history');
       onClearHistory();
     }
+  };
+
+  const handleResetDisclaimer = () => {
+    localStorage.removeItem('skywalker_disclaimer_accepted');
+    window.location.reload();
   };
 
   return (
@@ -146,13 +155,23 @@ const Settings: React.FC<SettingsProps> = ({ language, setLanguage, onClearHisto
                 Purging history will remove all previous audit results, reconnaissance notes, and intelligence logs stored on this node. This action cannot be undone.
               </p>
             </div>
-            <button 
-              onClick={handleClearHistory}
-              className="flex items-center gap-3 px-10 py-3.5 bg-red-600 hover:bg-red-500 text-white rounded-2xl text-xs font-black transition-all shadow-xl shadow-red-900/30 uppercase tracking-[0.2em] active:scale-95"
-            >
-              <Trash2 size={16} />
-              {t.clearBtn}
-            </button>
+            <div className="flex flex-col md:flex-row gap-4">
+              <button 
+                onClick={handleClearHistory}
+                className="flex items-center gap-3 px-10 py-3.5 bg-red-600 hover:bg-red-500 text-white font-black rounded-2xl text-[10px] font-black transition-all shadow-xl shadow-red-900/30 uppercase tracking-widest active:scale-95"
+              >
+                <Trash2 size={16} />
+                {t.clearBtn}
+              </button>
+              
+              <button 
+                onClick={handleResetDisclaimer}
+                className="flex items-center gap-3 px-10 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-black rounded-2xl text-[10px] font-black transition-all border border-slate-700 uppercase tracking-widest active:scale-95"
+              >
+                <ShieldAlert size={16} className="text-red-500" />
+                {t.resetDisclaimer}
+              </button>
+            </div>
           </div>
         </section>
 

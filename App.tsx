@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Shield, 
@@ -24,6 +25,7 @@ import AIChat from './components/AIChat';
 import VulnExplainer from './components/VulnExplainer';
 import Settings from './components/Settings';
 import CVEHub from './components/CVEHub';
+import Disclaimer from './components/Disclaimer';
 
 const RebelAllianceLogo = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
   <svg 
@@ -42,6 +44,9 @@ const App: React.FC = () => {
   const [systemLoad, setSystemLoad] = useState(0.42);
   const [navFilter, setNavFilter] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isAccepted, setIsAccepted] = useState(() => {
+    return localStorage.getItem('skywalker_disclaimer_accepted') === 'true';
+  });
   const [language, setLanguage] = useState<'en' | 'az'>(() => {
     return (localStorage.getItem('skywalker_lang') as 'en' | 'az') || 'en';
   });
@@ -56,6 +61,11 @@ const App: React.FC = () => {
   const handleSetLanguage = (lang: 'en' | 'az') => {
     setLanguage(lang);
     localStorage.setItem('skywalker_lang', lang);
+  };
+
+  const handleAcceptTerms = () => {
+    setIsAccepted(true);
+    localStorage.setItem('skywalker_disclaimer_accepted', 'true');
   };
 
   const translations = useMemo(() => ({
@@ -129,6 +139,16 @@ const App: React.FC = () => {
       </div>
     );
   };
+
+  if (!isAccepted) {
+    return (
+      <Disclaimer 
+        language={language} 
+        setLanguage={handleSetLanguage} 
+        onAccept={handleAcceptTerms} 
+      />
+    );
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-950 text-slate-200">
@@ -245,7 +265,7 @@ const App: React.FC = () => {
               className={`p-2.5 rounded-xl border transition-all ${
                 activeView === View.SETTINGS 
                 ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-900/20' 
-                : 'bg-slate-900 border-slate-800 text-slate-500 hover:text-white hover:bg-slate-800'
+                : 'bg-slate-900 border-slate-800 text-slate-500 hover:text-white hover:bg-slate-700'
               }`}
             >
               <SettingsIcon size={18} />

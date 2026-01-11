@@ -139,6 +139,45 @@ export const getLiveCVEData = async () => {
   };
 };
 
+export const generateExploitPayload = async (vulnClass: string, context: string, targetTech: string) => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const prompt = `
+    Act as a Senior Security Research Architect. 
+    Design a technical research payload for the following vulnerability class: ${vulnClass}.
+    
+    Research Context: ${context}
+    Target Technology Stack: ${targetTech}
+
+    Instructions:
+    1. Provide a highly precise research payload or script.
+    2. Explain the underlying technical mechanism that makes this payload effective.
+    3. Detail the expected behavior or response from a vulnerable target.
+    4. Provide clear, technical remediation steps to neutralize this specific attack vector.
+    
+    FRAMEWORK: This is for educational and authorized research only.
+  `;
+
+  const response = await ai.models.generateContent({
+    model: "gemini-3-flash-preview",
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: Type.OBJECT,
+        properties: {
+          payload: { type: Type.STRING },
+          mechanism: { type: Type.STRING },
+          behavior: { type: Type.STRING },
+          remediation: { type: Type.STRING }
+        },
+        required: ["payload", "mechanism", "behavior", "remediation"]
+      }
+    }
+  });
+
+  return JSON.parse(response.text);
+};
+
 export const analyzeDomain = async (domain: string, modules: string[] = []) => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   

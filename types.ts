@@ -6,7 +6,8 @@ export enum View {
   AI_CHAT = 'AI_CHAT',
   VULN_EXPLAINER = 'VULN_EXPLAINER',
   SETTINGS = 'SETTINGS',
-  CVE_HUB = 'CVE_HUB'
+  CVE_HUB = 'CVE_HUB',
+  EXPLOIT_ARCHITECT = 'EXPLOIT_ARCHITECT'
 }
 
 export interface SecurityScore {

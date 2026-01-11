@@ -15,7 +15,9 @@ import {
   ExternalLink,
   Database,
   Menu,
-  X
+  X,
+  Cpu,
+  Terminal
 } from 'lucide-react';
 import { View } from './types';
 import Dashboard from './components/Dashboard';
@@ -26,6 +28,7 @@ import VulnExplainer from './components/VulnExplainer';
 import Settings from './components/Settings';
 import CVEHub from './components/CVEHub';
 import Disclaimer from './components/Disclaimer';
+import ExploitArchitect from './components/ExploitArchitect';
 
 const RebelAllianceLogo = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
   <svg 
@@ -75,6 +78,7 @@ const App: React.FC = () => {
       compliance: 'Compliance Standards',
       vulnDb: 'Vulnerability Database',
       cveHub: 'CVE Intelligence',
+      exploitArchitect: 'Exploit Architect',
       aiChat: 'AI Security Assistant',
       settings: 'System Preferences',
       filter: 'Filter modules...',
@@ -90,6 +94,7 @@ const App: React.FC = () => {
       compliance: 'Uyğunluq Standartları',
       vulnDb: 'Boşluqlar Bazası',
       cveHub: 'CVE Kəşfiyyatı',
+      exploitArchitect: 'Eksployt Arxitekti',
       aiChat: 'Sİ Təhlükəsizlik Köməkçisi',
       settings: 'Sistem Parametrləri',
       filter: 'Modulları filtrlə...',
@@ -105,6 +110,7 @@ const App: React.FC = () => {
     { id: View.DASHBOARD, label: translations.dashboard, icon: LayoutDashboard },
     { id: View.HEADER_AUDIT, label: translations.headerAudit, icon: FileSearch },
     { id: View.CVE_HUB, label: translations.cveHub, icon: Database },
+    { id: View.EXPLOIT_ARCHITECT, label: translations.exploitArchitect, icon: Terminal },
     { id: View.OWASP_ADVISOR, label: translations.compliance, icon: Shield },
     { id: View.VULN_EXPLAINER, label: translations.vulnDb, icon: Bug },
     { id: View.AI_CHAT, label: translations.aiChat, icon: MessageSquareCode },
@@ -122,6 +128,7 @@ const App: React.FC = () => {
             case View.DASHBOARD: return <Dashboard language={language} />;
             case View.HEADER_AUDIT: return <HeaderAudit language={language} />;
             case View.CVE_HUB: return <CVEHub language={language} />;
+            case View.EXPLOIT_ARCHITECT: return <ExploitArchitect language={language} />;
             case View.OWASP_ADVISOR: return <OwaspAdvisor language={language} />;
             case View.AI_CHAT: return <AIChat language={language} />;
             case View.VULN_EXPLAINER: return <VulnExplainer language={language} />;
